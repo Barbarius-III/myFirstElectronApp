@@ -41,12 +41,12 @@ module.exports = {
     {
       name: '@electron-forge/publisher-github',
       config: {
-	repository: {
-	  owner: 'Barbarius-III',
-	  name: 'myFirstElectronApp'
-	},
-	prerelease: false,
-	draft: true
+	      repository: {
+	        owner: 'Barbarius-III',
+	        name: 'myFirstElectronApp'
+	      },
+	      prerelease: false,
+	      draft: true
       }
     }
   ]
