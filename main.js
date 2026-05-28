@@ -10,7 +10,7 @@ async function checkAppUpdate() {
 
   try {
     // 1. Appeler l'API GitHub de ton dépôt public
-    const response = await fetch('https://api.github.com/repos/ton-pseudo/ton-repo/releases/latest')
+    const response = await fetch('https://api.github.com/repos/Barbarius-III/myFirstElectronApp/releases/latest')
     const latestRelease = await response.json()
     
     // GitHub renvoie le tag de version (ex: "v2.0.0" ou "2.0.0")
@@ -29,7 +29,7 @@ async function checkAppUpdate() {
 
       // 3. Rediriger l'utilisateur vers ta page de Release GitHub
       if (buttonIndex === 0) {
-        await shell.openExternal('https://github.com/ton-pseudo/ton-repo/releases/latest')
+        await shell.openExternal('https://github.com/Barbarius-III/myFirstElectronApp/releases/latest')
       }
     }
   } catch (error) {
