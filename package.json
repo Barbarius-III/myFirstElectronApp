@@ -1,6 +1,6 @@
 {
-  "name": "appformajtestupdater",
-  "version": "4.0.0",
+  "name": "fullapp",
+  "version": "3.1.0",
   "description": "Hello World",
   "keywords": [
     "electron"
@@ -12,6 +12,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Barbarius-III/myFirstElectronApp.git"
+  },
+  "build": {
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Barbarius-III",
+        "repo": "myFirstElectronApp"
+      }
+    ]
   },
   "license": "ISC",
   "author": "Nathan Mandin",
