@@ -1,6 +1,6 @@
 {
   "name": "appformajtest",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Hello World",
   "keywords": [
     "electron"
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
+    "electron-updater": "^6.8.3",
     "update-electron-app": "^3.2.0"
   }
 }

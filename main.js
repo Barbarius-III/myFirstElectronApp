@@ -1,41 +1,10 @@
-require('update-electron-app').updateElectronApp();
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron')
+// require('update-electron-app').updateElectronApp();
+const { app, BrowserWindow, ipcMain, dialog } = require('electron')
 const path = require('node:path')
+const { autoUpdater } = require('electron-updater')
 
-const myPackage = require('./package.json')
-
-async function checkAppUpdate() {
-  // On ne vérifie pas en mode dev (lancé via npm start)
-  if (!app.isPackaged) return 
-
-  try {
-    // 1. Appeler l'API GitHub de ton dépôt public
-    const response = await fetch('https://api.github.com/repos/Barbarius-III/myFirstElectronApp/releases/latest')
-    const latestRelease = await response.json()
-    
-    // GitHub renvoie le tag de version (ex: "v2.0.0" ou "2.0.0")
-    const latestVersion = latestRelease.tag_name.replace('v', '')
-    const currentVersion = myPackage.version
-
-    // 2. Comparer les versions
-    if (latestVersion !== currentVersion) {
-      const { response: buttonIndex } = await dialog.showMessageBox({
-        type: 'info',
-        buttons: ['Télécharger la mise à jour', 'Plus tard'],
-        title: 'Mise à jour disponible',
-        message: `Une nouvelle version (${latestVersion}) est disponible !`,
-        detail: 'Souhaitez-vous ouvrir la page de téléchargement ?'
-      })
-
-      // 3. Rediriger l'utilisateur vers ta page de Release GitHub
-      if (buttonIndex === 0) {
-        await shell.openExternal('https://github.com/Barbarius-III/myFirstElectronApp/releases/latest')
-      }
-    }
-  } catch (error) {
-    console.error('Impossible de vérifier les mises à jour', error)
-  }
-}
+autoUpdater.logger = require('electron-log')
+autoUpdater.logger.transports.file.level = 'info'
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -55,13 +24,39 @@ app.whenReady().then(() => {
   ipcMain.handle('ping', () => 'pong')
   createWindow()
 
-  checkAppUpdate()
+  if (app.isPackaged) {
+    autoUpdater.checkForUpdatesAndNotify()
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-	createWindow()
+	    createWindow()
     }
   })
+})
+
+autoUpdater.on('update-available', () => {
+  // Optionnel : Tu peux envoyer un message à ton interface pour dire "Téléchargement en cours..."
+  console.log('Une mise à jour est disponible. Téléchargement lancé...')
+})
+
+autoUpdater.on('update-downloaded', () => {
+  // La mise à jour est téléchargée en tâche de fond, on propose l'installation
+  dialog.showMessageBox({
+    type: 'info',
+    title: 'Mise à jour prête',
+    message: 'Une nouvelle version a été téléchargée. Voulez-vous redémarrer l\'application pour l\'installer maintenant ?',
+    buttons: ['Redémarrer et Installer', 'Plus tard']
+  }).then((result) => {
+    if (result.response === 0) {
+      // Ferme l'application et lance l'installation de la nouvelle version
+      autoUpdater.quitAndInstall()
+    }
+  })
+})
+
+autoUpdater.on('error', (err) => {
+  console.error('Erreur lors de la mise à jour :', err)
 })
 
 app.on('window-all-closed', () => {
