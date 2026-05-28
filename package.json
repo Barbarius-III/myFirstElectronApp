@@ -1,6 +1,6 @@
 {
-  "name": "fullapp",
-  "version": "4.0.0",
+  "name": "myfirstelectronapp",
+  "version": "1.0.1",
   "description": "Hello World",
   "keywords": [
     "electron"
@@ -12,15 +12,6 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/Barbarius-III/myFirstElectronApp.git"
-  },
-  "build": {
-    "publish": [
-      {
-        "provider": "github",
-        "owner": "Barbarius-III",
-        "repo": "myFirstElectronApp"
-      }
-    ]
   },
   "license": "ISC",
   "author": "Nathan Mandin",
@@ -47,7 +38,6 @@
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.1",
-    "electron-updater": "^6.8.3",
     "update-electron-app": "^3.2.0"
   }
 }
